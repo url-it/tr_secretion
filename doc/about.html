@@ -1,0 +1,60 @@
+
+<h2><strong>Introduction</strong></h2>
+
+<p>PhysiCell stores substrates as concentrations/densities&nbsp;in voxels in the microenvironment. Cells can uptake/secrete chemicals from/to the microenvironment. This calculations are carried out with BioFVM like the following.&nbsp;There are three different transfer mechanisms, which are uptake, secretion, and net export rate which are explained further below.<br />
+<br />
+<img alt="" src="https://raw.githubusercontent.com/furkankurtoglu/trsecretion/master/doc/BioFVM_equation.JPG" style="width: 800px; height: 386px;" /></p>
+
+
+<h2>Uptake: (<em>U</em>)</h2>
+
+<p>Uptake rate controls how fast the cell consumes metabolites from the microenvironment. &quot;Uptake Rate&quot; term has 1/min unit.</p>
+
+
+<h2>Secretion: (<em>S</em>)</h2>
+
+<p>Secretion has two important parameters which are &quot;Secretion Rate&quot; and &quot;Saturation Density&quot;. Secretion rate controls how much&nbsp;metabolites are secreted to the&nbsp;microenvironment. Secretion Rate. has 1/min unit. Saturation Density is the maximum concentration that voxel can has. This is very important as secretion slows while getting closer to the saturation density.</p>
+
+<h2>Net Export Rate: (<em>E</em>)</h2>
+
+<p>Uptake and Secretion terms take into account of cellular volume (Eqn.1). However, with net export rate, cells can secrete or consume an&nbsp;<strong>exact</strong>&nbsp;amount from voxel. The unit for net export rate is substance/min.</p>
+
+
+<p>Additionally, if you turn on &quot;track intracellular&quot;&nbsp;option in the microenvironment term, PhysiCell will calculate metabolite concentrations and amounts in each cells. This is very useful for metabolic modeling. In this app, you need to turn on &quot;track_in_agents&quot; option to do that. Also, after the simulation is done, you need to &quot;Update&quot; 3 cell 2D plots which calculates and visualize how much metabolites are changed over the simulation.<br />
+<br />
+In this App, there are three metabolites and three cells. Cell 1 and Substrate A is designed for Uptake. Cell 2 and Substrate B is assigned for Secretion. Cell 3 and Substrate C is created for Net Export Rate.<br />
+<br />
+<br />
+&nbsp;</p>
+
+<p>This model and cloud-hosted demo are part of a course on computational multicellular systems biology created and taught by Dr. Paul Macklin in the Department of Intelligent Systems Engineering at Indiana University. It is also part of the education and outreach for the IU Engineered nanoBIO Node and the NCI-funded cancer systems biology grant U01CA232137. The models are built using <a href="https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005991" target="_blank">PhysiCell</a>: a C++ framework for multicellular systems biology [1].</p>
+
+<h2><a id="instructions" name="instructions">Basic instructions</a></h2>
+
+<p>Modify parameters in the &quot;Config Basics&quot;, &quot;Microenvironment&quot;, &quot;User Params&quot;, or &quot;Cell Types&quot; tabs. Click the &quot;Run&quot; button once you are ready.</p>
+
+<p>To view the output results, click the &quot;Out: Plots&quot; tab, and move the slider bar to advance through simulation frames. Note that as the simulation runs, the &quot;# cell frames&quot; field will increase, so you can view more simulation frames.</p>
+
+<p>If there are multiple substrates defined in the Microenvironment, you can select a different one from the drop-down widget in the Plots tab. You can also fix the colormap range of values.</p>
+
+<p>Note that you can download full simulation data for further exploration in your tools of choice. And you can also generate an animation of the cells to play in the browser and, optionally, download as a video.</p>
+
+<ul>
+	<li><b>Config Basics</b> tab:&nbsp;&nbsp;&nbsp; input parameters common to all models (e.g., domain grid, simulation time, choice/frequency of outputs)</li>
+	<li><b>Microenvironment</b> tab:&nbsp;&nbsp; microenvironment parameters that are model-specific</li>
+	<li><b>User Params</b> tab:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; user parameters that are model-specific</li>
+	<li><b>Cell Types</b> tab:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; parameters for cell types that are model-specific</li>
+	<li><b>Out: Plots</b> tab:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; output display of cells and substrates</li>
+	<li><b>Animate</b> tab:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; generate an animation of cells</li>
+</ul>
+
+<p>Clicking the &#39;Run&#39; button will use the specified parameters and start a simulation. When clicked, it creates an &quot;Output&quot; widget that can be clicked/expanded to reveal the progress (text) of the simulation. When the simulation generates output files, they can be visualized in the &quot;Out: Plots&quot; tab. The &quot;# cell frames&quot; will be dynamically updated as those output files are generated by the running simulation. When the &quot;Run&quot; button is clicked, it toggles to a &quot;Cancel&quot; button that will terminate (not pause) the simulation.</p>
+
+<h3><strong>About the software: </strong></h3>
+
+<p>This model and cloud-hosted demo are part of the education and outreach for the IU Engineered nanoBIO Node and the NCI-funded cancer systems biology grant U01CA232137. The models are built using PhysiCell: a C++ framework for multicellular systems biology [1] for the core simulation engine and xml2jupyter [2] to create the graphical user interface (GUI).</p>
+
+<ol>
+	<li><a href="https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005991">A. Ghaffarizadeh, R. Heiland, S.H. Friedman, S.M. Mumenthaler, and P. Macklin. PhysiCell: an open source physics-based cell simulator for 3-D multicellular systems. PLoS Comput. Biol. 14(2):e1005991, 2018. DOI: 10.1371/journal.pcbi.1005991.</a></li>
+	<li><a href="https://joss.theoj.org/papers/10.21105/joss.01408">R. Heiland, D. Mishler, T. Zhang, E. Bower, and P. Macklin. xml2jupyter: Mapping parameters between XML and Jupyter widgets. Journal of Open Source Software 4(39):1408, 2019. DOI: 10.21105/joss.01408.</a></li>
+</ol>
