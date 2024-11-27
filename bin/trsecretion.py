@@ -458,7 +458,7 @@ else:
 output_dir = "tmpdir"
 # svg.update(output_dir)
 
-sub.update_dropdown_fields("data")   # WARNING: generates multiple "<Figure size...>" stdout!
+# sub.update_dropdown_fields("data")   # WARNING: generates multiple "<Figure size...>" stdout!
 # animate_tab.update_dropdown_fields("data")   
 
 # print('config_tab.svg_interval.value= ',config_tab.svg_interval.value )
