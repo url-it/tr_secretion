@@ -1774,21 +1774,21 @@ class SubstrateTab(object):
                     # self.ax1_lymph_TH2 = self.ax1.twinx()
 
 
-        #     self.svg_frame = frame
-        #     # print('plot_svg with frame=',self.svg_frame)
-        #     self.plot_svg(self.svg_frame)
-        #     # cbar = self.fig.colorbar(substrate_plot, ax=self.ax0)
+            self.svg_frame = frame
+            # print('plot_svg with frame=',self.svg_frame)
+            self.plot_svg(self.svg_frame)
+            # cbar = self.fig.colorbar(substrate_plot, ax=self.ax0)
 
-        # if (self.analysis_data_toggle.value):
-        # # if (self.substrate_frame > 0):  # rwh: when to plot extra analysis (custom data)?
-        #     # print('analysis_data_toggle.value =',self.analysis_data_toggle.value )
-        #     # self.plot_analysis_data("time", ["assembled_virion"], -1)
-        #     # print('self.substrate_frame = ',self.substrate_frame)
-        #     self.substrate_frame = int(frame / self.modulo)
-        #     # self.plot_analysis_data("time", ["assembled_virion"], self.substrate_frame)
-        #     self.plot_analysis_data(self.substrate_frame)
-        # else:
-        #     self.plot_empty_analysis_data()
+        if (self.analysis_data_toggle.value):
+        # if (self.substrate_frame > 0):  # rwh: when to plot extra analysis (custom data)?
+            # print('analysis_data_toggle.value =',self.analysis_data_toggle.value )
+            # self.plot_analysis_data("time", ["assembled_virion"], -1)
+            # print('self.substrate_frame = ',self.substrate_frame)
+            self.substrate_frame = int(frame / self.modulo)
+            # self.plot_analysis_data("time", ["assembled_virion"], self.substrate_frame)
+            self.plot_analysis_data(self.substrate_frame)
+        else:
+            self.plot_empty_analysis_data()
 
-        # if self.colab_flag:
-        #     plt.show()
+        if self.colab_flag:
+            plt.show()

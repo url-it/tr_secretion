@@ -66,65 +66,65 @@ if( 'HOME' in os.environ.keys() ):
 # callback when user selects a cached run in the 'Load Config' dropdown widget.
 # HOWEVER, beware if/when this is called after a sim finishes and the Load Config dropdown widget reverts to 'DEFAULT'.
 # In that case, we don't want to recompute substrate.py self.numx, self.numy because we're still displaying plots from previous sim.
-def read_config_cb(_b):
-    # with debug_view:
-    #     print("read_config_cb", read_config.value)
+# def read_config_cb(_b):
+#     # with debug_view:
+#     #     print("read_config_cb", read_config.value)
 
-    sub.first_time = True
+#     sub.first_time = True
 
-    if read_config.value is None:  #occurs when a Run just finishes and we update pulldown with the new cache dir??
-        # with debug_view:
-        #     print("NOTE: read_config_cb(): No read_config.value. Returning!")
-        # print("NOTE: read_config_cb(): No read_config.value. Returning!")
-        return
+#     if read_config.value is None:  #occurs when a Run just finishes and we update pulldown with the new cache dir??
+#         # with debug_view:
+#         #     print("NOTE: read_config_cb(): No read_config.value. Returning!")
+#         # print("NOTE: read_config_cb(): No read_config.value. Returning!")
+#         return
 
-    if os.path.isdir(read_config.value):
-        is_dir = True
-        config_file = os.path.join(read_config.value, 'config.xml')
-        # print("read_config_cb(): is_dir=True; config_file=",config_file)
-    else:
-        is_dir = False
-        config_file = read_config.value
-        # print("read_config_cb(): is_dir=False; --- config_file=",config_file)
+#     if os.path.isdir(read_config.value):
+#         is_dir = True
+#         config_file = os.path.join(read_config.value, 'config.xml')
+#         # print("read_config_cb(): is_dir=True; config_file=",config_file)
+#     else:
+#         is_dir = False
+#         config_file = read_config.value
+#         # print("read_config_cb(): is_dir=False; --- config_file=",config_file)
 
-    if Path(config_file).is_file():
-        # with debug_view:
-        # print("read_config_cb():  calling fill_gui_params with ",config_file)
-        fill_gui_params(config_file)  #should verify file exists!
+#     if Path(config_file).is_file():
+#         # with debug_view:
+#         # print("read_config_cb():  calling fill_gui_params with ",config_file)
+#         fill_gui_params(config_file)  #should verify file exists!
 
-        # If cells or substrates toggled off in Config tab, toggle off in Plots tab
-        if config_tab.toggle_svg.value == False:
-            sub.cells_toggle.value = False
-            sub.cells_toggle.disabled = True
-        else:
-            sub.cells_toggle.disabled = False
+#         # If cells or substrates toggled off in Config tab, toggle off in Plots tab
+#         if config_tab.toggle_svg.value == False:
+#             sub.cells_toggle.value = False
+#             sub.cells_toggle.disabled = True
+#         else:
+#             sub.cells_toggle.disabled = False
 
-        if config_tab.toggle_mcds.value == False:
-            sub.substrates_toggle.value = False
-            sub.substrates_toggle.disabled = True
-        else:
-            sub.substrates_toggle.disabled = False
+#         if config_tab.toggle_mcds.value == False:
+#             sub.substrates_toggle.value = False
+#             sub.substrates_toggle.disabled = True
+#         else:
+#             sub.substrates_toggle.disabled = False
 
-    else:
-        # with debug_view:
-        #     print("read_config_cb: ",config_file, " does not exist.")
-        return
+#     else:
+#         # with debug_view:
+#         #     print("read_config_cb: ",config_file, " does not exist.")
+#         return
     
-    # update visualization tabs
-    if is_dir:
-        # svg.update(read_config.value)
-        # print("read_config_cb():  is_dir True, calling update_params")
-        sub.update_params(config_tab, user_tab)
-        sub.update(read_config.value)
-    # else:  # may want to distinguish "DEFAULT" from other saved .xml config files
-        # FIXME: really need a call to clear the visualizations
-        # svg.update('')
-        # sub.update('')
-        # print("read_config_cb():  is_dir False, calling update_params")
-        # sub.update_params(config_tab)
-        # print("read_config_cb():  is_dir False, calling sub.update()")
-        # sub.update()  # NOTE: even if we attempt this, it doesn't really refresh the plots
-        # pass
+#     # update visualization tabs
+#     if is_dir:
+#         # svg.update(read_config.value)
+#         # print("read_config_cb():  is_dir True, calling update_params")
+#         sub.update_params(config_tab, user_tab)
+#         sub.update(read_config.value)
+#     # else:  # may want to distinguish "DEFAULT" from other saved .xml config files
+#         # FIXME: really need a call to clear the visualizations
+#         # svg.update('')
+#         # sub.update('')
+#         # print("read_config_cb():  is_dir False, calling update_params")
+#         # sub.update_params(config_tab)
+#         # print("read_config_cb():  is_dir False, calling sub.update()")
+#         # sub.update()  # NOTE: even if we attempt this, it doesn't really refresh the plots
+#         # pass
         
 
 # Using the param values in the GUI, write a new .xml config file
