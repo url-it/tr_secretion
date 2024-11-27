@@ -83,6 +83,8 @@ class SubstrateTab(object):
 
         self.axis_label_fontsize = 15
 
+        self.colab_flag = True
+
         # Furkan
         self.plots4_width = 16
         self.plots4_height = 16
@@ -836,29 +838,6 @@ class SubstrateTab(object):
                 last_file = substrate_files[-1]
                 self.max_frames.value = int(last_file[-12:-4])
 
-    def download_local_svg_cb(self,s):
-        file_str = os.path.join(self.output_dir, '*.svg')
-        # print('zip up all ',file_str)
-        with zipfile.ZipFile('svg.zip', 'w') as myzip:
-            for f in glob.glob(file_str):
-                myzip.write(f, os.path.basename(f))   # 2nd arg avoids full filename path in the archive
-
-        if self.colab_flag:
-            files.download('svg.zip')
-
-    def download_local_cb(self,s):
-        file_xml = os.path.join(self.output_dir, '*.xml')
-        file_mat = os.path.join(self.output_dir, '*.mat')
-        # print('zip up all ',file_str)
-        with zipfile.ZipFile('mcds.zip', 'w') as myzip:
-            for f in glob.glob(file_xml):
-                myzip.write(f, os.path.basename(f)) # 2nd arg avoids full filename path in the archive
-            for f in glob.glob(file_mat):
-                myzip.write(f, os.path.basename(f))
-
-        if self.colab_flag:
-            files.download('mcds.zip')
-
     def download_config_cb(self):
         file_str = os.path.join(self.output_dir, 'config.xml')
         with zipfile.ZipFile('config.zip', 'w') as myzip:
@@ -1538,8 +1517,8 @@ class SubstrateTab(object):
         #         ytracks = self.trackd[key][:,1]
         #         plt.plot(xtracks[0:frame],ytracks[0:frame],  linewidth=5)
 
-        if self.colab_flag:
-            plt.show()
+        # if self.colab_flag:
+        #     plt.show()
 
 
 
