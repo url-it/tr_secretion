@@ -450,7 +450,7 @@ else:
 
     top_row = widgets.HBox(children=[tool_title])
     # gui = widgets.VBox(children=[top_row, tabs, run_button])
-    gui = widgets.VBox(children=[top_row, tabs, run_button.w])   # using new RunCommand
+    gui = widgets.VBox(children=[top_row, tabs, run_button])
     fill_gui_params("data/PhysiCell_settings.xml")
 
 
