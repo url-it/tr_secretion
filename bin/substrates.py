@@ -42,6 +42,11 @@ if platform.system() != 'Windows':
 else:
     hublib_flag = False
 
+try:
+    from google.colab import files
+except:
+    pass
+
 #warnings.warn(message, mplDeprecation, stacklevel=1)
 warnings.filterwarnings("ignore")
 
@@ -214,6 +219,8 @@ class SubstrateTab(object):
 
         self.fontsize = 20
         # self.fontsize = 30
+
+        self.colab_flag = True
 
 
         #============  new GUI =================
