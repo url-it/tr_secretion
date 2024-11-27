@@ -1114,7 +1114,7 @@ class SubstrateTab(object):
             # plt.xlim(self.xmin+self.xdelta/2, self.xmax-self.xdelta/2)
             # plt.ylim(self.ymin+self.ydelta/2, self.ymax-self.ydelta/2)
 
-            if (frame == 0):  # maybe allow substrate grid display later
+            if (frame == 1):  # maybe allow substrate grid display later
                 xs = np.linspace(self.xmin,self.xmax, self.numx+1)
                 ys = np.linspace(self.ymin,self.ymax, self.numy+1)
                 hlines = np.column_stack(np.broadcast_arrays(xs[0], ys, xs[-1], ys))
