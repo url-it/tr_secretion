@@ -1538,8 +1538,8 @@ class SubstrateTab(object):
         #         ytracks = self.trackd[key][:,1]
         #         plt.plot(xtracks[0:frame],ytracks[0:frame],  linewidth=5)
 
-        if self.colab_flag:
-            plt.show()
+        # if self.colab_flag:
+        #     plt.show()
 
 
 
@@ -1789,6 +1789,4 @@ class SubstrateTab(object):
             self.plot_analysis_data(self.substrate_frame)
         else:
             self.plot_empty_analysis_data()
-
-        if self.colab_flag:
-            plt.show()
+    plt.show()
