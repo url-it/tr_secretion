@@ -16,7 +16,7 @@ except:
     # print("cell_types.py does not exist due to no <cell_definitions>")
     pass
 # from svg import SVGTab
-from substrates-rwh import SubstrateTab
+from substrates import SubstrateTab
 from animate_tab import AnimateTab
 from pathlib import Path
 import platform
