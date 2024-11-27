@@ -143,6 +143,7 @@ class ConfigTab(object):
 
         self.toggle_svg = Checkbox(
             description='Cells',    # SVG
+            disabled = True, #ADDED U
             layout=Layout(width='150px') )  # constWidth = '180px'
         # self.svg_t0 = BoundedFloatText (
         #     min=0,
@@ -165,8 +166,9 @@ class ConfigTab(object):
 
         # don't let this be > mcds interval
         def svg_interval_cb(b):
-            if (self.svg_interval.value > self.mcds_interval.value):
-                self.svg_interval.value = self.mcds_interval.value
+            # if (self.svg_interval.value > self.mcds_interval.value):
+            #     self.svg_interval.value = self.mcds_interval.value
+            self.mcds_interval.value = self.svg_interval.value
 
         self.svg_interval.observe(svg_interval_cb)  # BEWARE: when fill_gui, this sets value = 1 !
 
@@ -191,6 +193,7 @@ class ConfigTab(object):
         self.toggle_mcds = Checkbox(
         #     value=False,
             description='Subtrates',   # Full
+            disabled = True, #ADDED U
             layout=Layout(width='180px'),
         )
         # self.mcds_t0 = FloatText(
@@ -201,7 +204,8 @@ class ConfigTab(object):
         def toggle_mcds_cb(b):
             if (self.toggle_mcds.value):
                 # self.mcds_t0.disabled = False #False
-                self.mcds_interval.disabled = False
+                # self.mcds_interval.disabled = False
+                self.mcds_interval.disabled = True
             else:
                 # self.mcds_t0.disabled = True
                 self.mcds_interval.disabled = True

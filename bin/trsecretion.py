@@ -24,19 +24,16 @@ import subprocess
 from debug import debug_view
 
 # hublib_flag = True
-# if platform.system() != 'Windows':
-#     try:
-# #        print("Trying to import hublib.ui")
-#         from hublib.ui import RunCommand, Submit
-#         # from hublib2.ui import RunCommand, Submit
-#     except:
-#         hublib_flag = False
-# else:
-#     hublib_flag = False
-
 hublib_flag = False
-from misc.hublib_ui_command import RunCommand
-
+if platform.system() != 'Windows':
+    try:
+#        print("Trying to import hublib.ui")
+        from hublib.ui import RunCommand, Submit
+        # from hublib2.ui import RunCommand, Submit
+    except:
+        hublib_flag = False
+else:
+    hublib_flag = False
 
 # join_our_list = "(Join/ask questions at https://groups.google.com/forum/#!forum/physicell-users)\n"
 
@@ -225,6 +222,14 @@ def fill_gui_params(config_file):
     if xml_root.find('.//cell_definitions'):
         cell_types_tab.fill_gui(xml_root)
 
+def run_done_func_colab(s, rdir):
+    global run_button
+    with debug_view:
+        print('run_done_func: results in', rdir)
+    
+    sub.update(rdir)
+    run_button.description = "Run"
+    run_button.button_style='success'
 
 # def run_done_func(s, rdir):
 def run_done_func(s):
@@ -298,8 +303,8 @@ def run_sim_func(s):
     new_config_file = "tmpdir/config.xml"  # use Path; work on Windows?
     write_config_file(new_config_file)  
 
-    # with open(new_config_file) as f:
-    #     run_name = s.make_rname(f.read())
+    with open(new_config_file) as f:
+        run_name = s.make_rname(f.read())
 
     tdir = os.path.abspath('tmpdir')
     os.chdir(tdir)  # operate from tmpdir; temporary output goes here.  may be copied to cache later
@@ -340,11 +345,10 @@ def outcb(s):
 
 # Callback for the ("dumb") 'Run' button (without hublib.ui)
 def run_button_cb(s):
-
     # if self.colab_flag:
-    if True:
-        num_frames = float(config_tab.tmax.value) / float(config_tab.mcds_interval.value)
-        sub.max_frames.value = int(num_frames)
+    # if True:
+    #     num_frames = float(config_tab.tmax.value) / float(config_tab.mcds_interval.value)
+    #     sub.max_frames.value = int(num_frames)
 
 #    with debug_view:
 #        print('run_button_cb')
@@ -375,7 +379,10 @@ def run_button_cb(s):
     # sub.update_params(config_tab)
     sub.update(tdir)
 
-    subprocess.Popen(["../bin/myproj", "config.xml"])
+    run_button.description = "WAIT..."
+    subprocess.run(["../bin/myproj", "config.xml"])
+    sub.max_frames.value = int(config_tab.tmax.value / config_tab.svg_interval.value)    # 42
+    run_button.description = "Run"
 
 
 #-------------------------------------------------
@@ -387,8 +394,7 @@ if nanoHUB_flag:
                         showcache=False,
                         outcb=outcb)
 else:
-    # if (hublib_flag):
-    if True:
+    if (hublib_flag):
         run_button = RunCommand(start_func=run_sim_func,
                             done_func=run_done_func,
                             outcb=outcb)  
@@ -437,6 +443,11 @@ if False:
     gui = widgets.VBox(children=[top_row, tabs, run_button.w])
     fill_gui_params(read_config.options['DEFAULT'])
 else:
+    cpp_output = widgets.Output()
+    acc = widgets.Accordion(children=[cpp_output])
+    acc.set_title(0, 'Output')
+
+
     top_row = widgets.HBox(children=[tool_title])
     # gui = widgets.VBox(children=[top_row, tabs, run_button])
     gui = widgets.VBox(children=[top_row, tabs, run_button.w])   # using new RunCommand
