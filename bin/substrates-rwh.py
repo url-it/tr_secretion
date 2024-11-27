@@ -156,6 +156,7 @@ class SubstrateTab(object):
         self.cmap_fixed_toggle = Checkbox(
             description='Fix',
             disabled=False,
+            value = True, #ADDED U
 #           layout=Layout(width=constWidth2),
         )
         self.cmap_fixed_toggle.observe(self.mcds_field_cb)
@@ -1065,10 +1066,10 @@ class SubstrateTab(object):
             #     self.numy =  math.ceil( (self.ymax - self.ymin) / dy)
 
             try:
-                # xgrid = M[0, :].reshape(self.numy, self.numx)
-                # ygrid = M[1, :].reshape(self.numy, self.numx)
-                xgrid = M[0, :].reshape(self.numy+1, self.numx+1)
-                ygrid = M[1, :].reshape(self.numy+1, self.numx+1)
+                xgrid = M[0, :].reshape(self.numy, self.numx)
+                ygrid = M[1, :].reshape(self.numy, self.numx)
+                # xgrid = M[0, :].reshape(self.numy+1, self.numx+1)
+                # ygrid = M[1, :].reshape(self.numy+1, self.numx+1)
             except:
                 print("substrates.py: mismatched mesh size for reshape: numx,numy=",self.numx, self.numy)
                 pass
@@ -1152,7 +1153,7 @@ class SubstrateTab(object):
         # x = np.linspace(0, 500)
         # oxy_ax.plot(x, 300*np.sin(x))
 
-        plt.show() # rwh 
+        plt.show() # rwh: for Colab
 
     #---------------------------------------------------------------------------
     # def plot_plots(self, frame):
