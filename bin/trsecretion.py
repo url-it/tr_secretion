@@ -456,13 +456,7 @@ if False:
     gui = widgets.VBox(children=[top_row, tabs, run_button.w])
     fill_gui_params(read_config.options['DEFAULT'])
 else:
-    cpp_output = widgets.Output()
-    acc = widgets.Accordion(children=[cpp_output])
-    acc.set_title(0, 'Output')
-
-
     top_row = widgets.HBox(children=[tool_title])
-    # gui = widgets.VBox(children=[top_row, tabs, run_button])
     gui = widgets.VBox(children=[top_row, tabs, acc,run_button])
     fill_gui_params("data/PhysiCell_settings.xml")
 
