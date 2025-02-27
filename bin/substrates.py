@@ -241,6 +241,9 @@ class SubstrateTab(object):
             disabled = True, 
             value=True, style = {'description_width': 'initial'} )
 
+        ########
+        # In case: I readded this 
+        #######
         self.field_min_max = {'assembled_virion':[0.,1.,False]  }
         # hacky I know, but make a dict that's got (key,value) reversed from the dict in the Dropdown below
 
