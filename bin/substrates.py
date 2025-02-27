@@ -955,7 +955,7 @@ class SubstrateTab(object):
     # def update_analysis_data(self,b):
     def update_analysis_data(self):
         # print('----- update_analysis_data')
-        print('rwh: update_analysis_data(): self.output_dir = ', self.output_dir)
+        # print('rwh: update_analysis_data(): self.output_dir = ', self.output_dir)
 
         # If we've already computed the plots being requested, just return.
         # if ('live' in self.analysis_data_choice.value) and self.analysis_data_set1:
@@ -988,13 +988,13 @@ class SubstrateTab(object):
                 data_dir = os.path.abspath('tmpdir')
                 # print("----- data_dir(3)=",cwd)
 
-        print("----- rwh: data_dir=",data_dir)
+        # print("----- rwh: data_dir=",data_dir)
         os.chdir(data_dir)
 
         xml_files = glob.glob('output*.xml')
         # xml_files = glob.glob(os.path.join('tmpdir', 'output*.xml'))
         xml_files.sort()
-        print('update_analysis_data(): len(xml_files)=',len(xml_files))
+        # print('update_analysis_data(): len(xml_files)=',len(xml_files))
         # print('xml_files = ',xml_files)
         # print("----- chdir back to cwd=",cwd)
         # os.chdir(cwd)
@@ -1022,9 +1022,10 @@ class SubstrateTab(object):
         if xname == self.tname:
             self.xval = tval
             # print("xname == self.tname")
-            print("#1 self.xval=",self.xval)
+            # print("#1 self.xval=",self.xval)
         else:
             print("Warning: xname != self.tname")
+            # pass
         voxel_size = mcds[0].data['mesh']['voxels']['volumes'][0]
         self.analysis_data_wait.value = 'compute 1-3...'
         # print(np.array( [(mcds[idx].data['continuum_variables']['chemical_A'])  for idx in range(ds_count)] ).astype(float))
