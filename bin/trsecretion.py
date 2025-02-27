@@ -56,12 +56,15 @@ if xml_root.find('.//cell_definitions'):
 
 # svg = SVGTab()
 sub = SubstrateTab()
-animate_tab = AnimateTab()
+# animate_tab = AnimateTab()
 
 nanoHUB_flag = False
 if( 'HOME' in os.environ.keys() ):
     nanoHUB_flag = "home/nanohub" in os.environ['HOME']
 
+output_widget = widgets.Output()
+acc = widgets.Accordion(children=[output_widget])
+acc.set_title(0, 'Output')
 
 # callback when user selects a cached run in the 'Load Config' dropdown widget.
 # HOWEVER, beware if/when this is called after a sim finishes and the Load Config dropdown widget reverts to 'DEFAULT'.
@@ -262,7 +265,7 @@ def run_done_func(s):
     # svg.update(rdir)
     sub.update(rdir)
 
-    animate_tab.gen_button.disabled = False
+    # animate_tab.gen_button.disabled = False
 
     # with debug_view:
     #     print('RDF DONE')
@@ -273,7 +276,7 @@ def run_sim_func(s):
     # with debug_view:
     #     print('run_sim_func')
 
-    animate_tab.gen_button.disabled = True
+    # animate_tab.gen_button.disabled = True
 
     # If cells or substrates toggled off in Config tab, toggle off in Plots tab
     if config_tab.toggle_svg.value == False:
@@ -358,31 +361,70 @@ def run_button_cb(s):
 #    write_config_file(new_config_file)
 
     # make sure we are where we started
-    os.chdir(homedir)
+    # os.chdir(homedir)
 
-    # remove any previous data
-    # NOTE: this dir name needs to match the <folder>  in /data/<config_file.xml>
-    os.system('rm -rf tmpdir*')
-    if os.path.isdir('tmpdir'):
-        # something on NFS causing issues...
-        tname = tempfile.mkdtemp(suffix='.bak', prefix='tmpdir_', dir='.')
-        shutil.move('tmpdir', tname)
-    os.makedirs('tmpdir')
+    # # remove any previous data
+    # # NOTE: this dir name needs to match the <folder>  in /data/<config_file.xml>
+    # os.system('rm -rf tmpdir*')
+    # if os.path.isdir('tmpdir'):
+    #     # something on NFS causing issues...
+    #     tname = tempfile.mkdtemp(suffix='.bak', prefix='tmpdir_', dir='.')
+    #     shutil.move('tmpdir', tname)
+    # os.makedirs('tmpdir')
 
-    # write the default config file to tmpdir
-    new_config_file = "tmpdir/config.xml"  # use Path; work on Windows?
-    write_config_file(new_config_file)  
+    # # write the default config file to tmpdir
+    # new_config_file = "tmpdir/config.xml"  # use Path; work on Windows?
+    # write_config_file(new_config_file)  
 
-    tdir = os.path.abspath('tmpdir')
-    os.chdir(tdir)  # operate from tmpdir; temporary output goes here.  may be copied to cache later
-    # svg.update(tdir)
-    # sub.update_params(config_tab)
-    sub.update(tdir)
+    # tdir = os.path.abspath('tmpdir')
+    # os.chdir(tdir)  # operate from tmpdir; temporary output goes here.  may be copied to cache later
+    # # svg.update(tdir)
+    # # sub.update_params(config_tab)
+    # sub.update(tdir)
 
-    run_button.description = "WAIT..."
-    subprocess.run(["../bin/myproj", "config.xml"])
-    sub.max_frames.value = int(config_tab.tmax.value / config_tab.svg_interval.value)    # 42
-    run_button.description = "Run"
+    # run_button.description = "WAIT..."
+    # subprocess.run(["../bin/myproj", "config.xml"])
+    # sub.max_frames.value = int(config_tab.tmax.value / config_tab.svg_interval.value)    # 42
+    # run_button.description = "Run"
+    with output_widget:
+        output_widget.clear_output()  # Clear previous output
+        print("Running myproj ...")
+
+        # make sure we are where we started
+        os.chdir(homedir)
+
+        # remove any previous data
+        # NOTE: this dir name needs to match the <folder> in /data/<config_file.xml>
+        os.system('rm -rf tmpdir*')
+        if os.path.isdir('tmpdir'):
+            # something on NFS causing issues...
+            tname = tempfile.mkdtemp(suffix='.bak', prefix='tmpdir_', dir='.')
+            shutil.move('tmpdir', tname)
+        os.makedirs('tmpdir')
+
+        # write the default config file to tmpdir
+        new_config_file = "tmpdir/config.xml"  # use Path; work on Windows?
+        write_config_file(new_config_file)
+
+        tdir = os.path.abspath('tmpdir')
+        os.chdir(tdir)  # operate from tmpdir; temporary output goes here. may be copied to cache later
+        # svg.update(tdir)
+        # sub.update_params(config_tab)
+        sub.update(tdir)
+
+        run_button.description = "WAIT..."
+        process = subprocess.Popen(["../bin/myproj", "config.xml"],
+                                   stdout=subprocess.PIPE,
+                                   stderr=subprocess.PIPE,
+                                   universal_newlines=True)
+        for line in process.stdout:
+            print(line, end="")
+        for line in process.stderr:
+            print(line, end="")
+        process.wait()
+        sub.max_frames.value = int(config_tab.tmax.value / config_tab.svg_interval.value)  # 42
+        run_button.description = "Run"
+
 
 
 #-------------------------------------------------
@@ -421,14 +463,14 @@ tab_layout = widgets.Layout(width='auto',height=tab_height, overflow_y='scroll',
 
 if xml_root.find('.//cell_definitions'):
     titles = ['About', 'Config Basics', 'Microenvironment', 'User Params', 'Cell Types', 'Out: Plots', 'Animate']
-    tabs = widgets.Tab(children=[about_tab.tab, config_tab.tab, microenv_tab.tab, user_tab.tab, cell_types_tab.tab, sub.tab, animate_tab.tab],
+    tabs = widgets.Tab(children=[about_tab.tab, config_tab.tab, microenv_tab.tab, user_tab.tab, cell_types_tab.tab, sub.tab],
                    _titles={i: t for i, t in enumerate(titles)},
                    layout=tab_layout)
 else:
     titles = ['About', 'Config Basics', 'Microenvironment', 'User Params', 'Out: Plots', 'Animate']
-    tabs = widgets.Tab(children=[about_tab.tab, config_tab.tab, microenv_tab.tab, user_tab.tab, sub.tab, animate_tab.tab],
+    tabs = widgets.Tab(children=[about_tab.tab, config_tab.tab, microenv_tab.tab, user_tab.tab, sub.tab],
                    _titles={i: t for i, t in enumerate(titles)},
-                   layout=tab_layout)
+                   layout=tab_layout) 
 
 homedir = os.getcwd()
 
@@ -450,7 +492,7 @@ else:
 
     top_row = widgets.HBox(children=[tool_title])
     # gui = widgets.VBox(children=[top_row, tabs, run_button])
-    gui = widgets.VBox(children=[top_row, tabs, run_button])
+    gui = widgets.VBox(children=[top_row, tabs, acc,run_button])
     fill_gui_params("data/PhysiCell_settings.xml")
 
 
