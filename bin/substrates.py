@@ -979,7 +979,7 @@ class SubstrateTab(object):
         cwd = os.getcwd()
         # print("----- cwd(1)=",cwd)
         data_dir = cwd
-        print("----- data_dir(1)=",cwd)
+        # print("----- data_dir(1)=",cwd)
 
         if 'cache' in self.output_dir:
             data_dir = self.output_dir
