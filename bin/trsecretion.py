@@ -233,6 +233,7 @@ def run_done_func_colab(s, rdir):
     sub.update(rdir)
     run_button.description = "Run"
     run_button.button_style='success'
+    sub.running_message.layout.display = 'none'
 
 # def run_done_func(s, rdir):
 def run_done_func(s):
@@ -261,6 +262,7 @@ def run_done_func(s):
 
     # sub.update_dropdown_fields("data")   # WARNING: fill in the substrate field(s)
 
+    sub.running_message.layout.display = 'none'
     # and update visualizations
     # svg.update(rdir)
     sub.update(rdir)
@@ -364,6 +366,8 @@ def run_button_cb(s):
         output_widget.clear_output()
         print("Running myproj...")
 
+        sub.running_message.layout.display = 'block'
+
         os.chdir(homedir)
 
         # remove any previous data
@@ -395,7 +399,7 @@ def run_button_cb(s):
         process.wait()
         sub.max_frames.value = int(config_tab.tmax.value / config_tab.svg_interval.value)    # 42
         run_button.description = "Run"
-
+        sub.running_message.layout.display = 'none' 
 
 
 #-------------------------------------------------

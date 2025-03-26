@@ -31,6 +31,7 @@ from debug import debug_view
 import warnings
 import traceback
 import sys
+import ipywidgets as widgets
 
 hublib_flag = True
 if platform.system() != 'Windows':
@@ -591,6 +592,12 @@ class SubstrateTab(object):
 
         controls_box = HBox([cells_vbox, substrate_vbox, analysis_data_hbox], justify_content='center')  # vs. 'flex-start   , layout=Layout(width='900px'))
 
+        self.running_message = widgets.HTML(
+             value="<h2 style='color: red;'>Currently running, please wait...</h2>",
+             layout=widgets.Layout(display='none')  
+         )
+ 
+
         if self.colab_flag:
             self.download_button = Button(
                 description='Download mcds.zip',
@@ -609,8 +616,9 @@ class SubstrateTab(object):
             download_row = HBox([self.download_button, self.download_svg_button])
             # box_layout = Layout(border='0px solid')
             # controls_box = VBox([row1, row2])  # ,width='50%', layout=box_layout)
-            self.tab = VBox([controls_box, self.i_plot, download_row])
+            self.tab = VBox([controls_box, self.running_message,self.i_plot, download_row])
 
+            
         elif (hublib_flag):
             self.download_button = Download('mcds.zip', style='warning', icon='cloud-download', 
                                                 tooltip='Download MCDS data', cb=self.download_cb)
