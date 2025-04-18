@@ -857,7 +857,7 @@ class SubstrateTab(object):
 
     def download_local_svg_cb(self,s):
         self.save_png()
-        file_str = os.path.join(self.output_dir, '*.svg')
+        file_str = os.path.join(self.output_dir, '*.png')
         # print('zip up all ',file_str)
         with zipfile.ZipFile('svg.zip', 'w') as myzip:
             for f in glob.glob(file_str):
