@@ -54,7 +54,7 @@ warnings.filterwarnings("ignore")
 class SubstrateTab(object):
 
     def __init__(self):
-        
+        self.png_frame = 0
         self.tb_count = 0
 
         self.output_dir = '.'
@@ -206,7 +206,8 @@ class SubstrateTab(object):
 
         # self.mcds_plot = interactive(self.plot_substrate, frame=(0, max_frames), continuous_update=False)  
         # self.i_plot = interactive(self.plot_plots, frame=(0, max_frames), continuous_update=False)  
-        self.i_plot = interactive(self.plot_substrate, frame=(0, max_frames), continuous_update=False)  
+        # self.i_plot = interactive(self.plot_substrate, frame=(0, max_frames), continuous_update=False)  
+        self.i_plot = interactive(lambda frame: self.plot_substrate(frame), frame =(0, max_frames), continuous_update=False)       
 
         # "plot_size" controls the size of the tab height, not the plot (rf. figsize for that)
         # NOTE: the Substrates Plot tab has an extra row of widgets at the top of it (cf. Cell Plots tab)
@@ -855,6 +856,7 @@ class SubstrateTab(object):
             myzip.write(file_str, os.path.basename(file_str))   # 2nd arg avoids full filename path in the archive
 
     def download_local_svg_cb(self,s):
+        self.save_png()
         file_str = os.path.join(self.output_dir, '*.svg')
         # print('zip up all ',file_str)
         with zipfile.ZipFile('svg.zip', 'w') as myzip:
@@ -1537,7 +1539,7 @@ class SubstrateTab(object):
     #---------------------------------------------------------------------------
     # assume "frame" is cell frame #, unless Cells is togggled off, then it's the substrate frame #
     # def plot_substrate(self, frame, grid):
-    def plot_substrate(self, frame):
+    def plot_substrate(self, frame, force_plot = False):
 
         # print("plot_substrate(): frame*self.substrate_delta_t  = ",frame*self.substrate_delta_t)
         # print("plot_substrate(): frame*self.svg_delta_t  = ",frame*self.svg_delta_t)
@@ -1557,7 +1559,7 @@ class SubstrateTab(object):
         # Assume: # .svg files >= # substrate files
 #        if (self.cells_toggle.value):
 
-        if self.substrates_toggle.value:
+        if (self.substrates_toggle.value or force_plot):
             # maybe only show 2nd plot if self.analysis_data_toggle is True
             # if self.analysis_data_toggle.value:  # substrates and 2D plots 
             if True:  # substrates and 2D plots 
@@ -1781,5 +1783,14 @@ class SubstrateTab(object):
         else:
             self.plot_empty_analysis_data()
 
-        if self.colab_flag:
+        if (force_plot == False):
             plt.show()
+    
+    def save_png(self):
+        for frame in range(self.max_frames.value):
+            self.plot_substrate(frame, force_plot=True)
+            self.png_frame += 1
+            png_file = os.path.join(self.output_dir, f"frame{self.png_frame:04d}.png")
+            self.fig.savefig(png_file)
+            plt.close(self.fig)
+        self.png_frame = 0
